@@ -34,7 +34,23 @@ const adminOnly = (
     else res.redirect('/login')
 }
 
-// TODO find a good toast notification library to use on the frontend
+app.use('/apps/admin/*', (req, res) => {
+    res.redirect('/apps/admin')
+})
+
+// TODO these are commented out because they will be replaced by the above link
+
+// app.get('/login', (req, res) => {
+//     siteData
+//         .login()
+//         .then((data) => res.render('login.pug', { admin: true, data }))
+//         .catch(errorHandler(res))
+// })
+
+// app.get('/admin/settings', adminOnly, (req, res) => {
+//     const { user } = req.session
+//     res.render('settings.pug', { user })
+// })
 
 app.get(['/', '/home'], (req, res) => {
     siteData
@@ -43,14 +59,7 @@ app.get(['/', '/home'], (req, res) => {
         .catch(errorHandler(res))
 })
 
-app.get('/login', (req, res) => {
-    siteData
-        .login()
-        .then((data) => res.render('login.pug', { admin: true, data }))
-        .catch(errorHandler(res))
-})
-
-app.post('/api/login', (req, res) => {
+app.post('/api/admin/login', (req, res) => {
     const { email, plaintext } = req.body
     validateLogin(email, plaintext)
         .then((data) => {
@@ -60,18 +69,13 @@ app.post('/api/login', (req, res) => {
         .catch(errorHandler(res))
 })
 
-app.delete('/api/logout', (req, res) => {
+app.delete('/api/admin/logout', (req, res) => {
     logOut(req)
         .then(() => res.sendStatus(200))
         .catch(errorHandler(res))
 })
 
-app.get('/admin/settings', adminOnly, (req, res) => {
-    const { user } = req.session
-    res.render('settings.pug', { user })
-})
-
-app.post('/api/register', adminOnly, (req, res) => {
+app.post('/api/admin/register', adminOnly, (req, res) => {
     const { email, plaintext } = req.body
     registerUser(email, plaintext)
         .then((data) => res.json(data))
