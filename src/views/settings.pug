@@ -1,0 +1,13 @@
+extends layout/admin/admin-template.pug 
+
+block body
+    div(id="admin-page")
+        include layout/admin/admin-navbar.pug
+        .admin-page.d-flex.flex-column.justify-content-start.pt-5
+            .row 
+                .col-1.col-lg-2
+                .col-10.col-lg-8.admin-form
+                    p this is the protected settings page
+                    p #{user}
+                .col-1.col-lg-2
+    script(type="module", src="/js/views/admin.js")

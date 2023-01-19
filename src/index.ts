@@ -3,9 +3,8 @@ import session from 'express-session'
 import cors from 'cors'
 import { v4 as uuidv4 } from 'uuid'
 import { HTTP_PORT, SESSION_SECRET } from './constants'
-import { healthCheck, registerUser, siteData, validateLogin } from './routes'
+import { logOut, registerUser, siteData, validateLogin } from './routes'
 import { errorHandler, getPath } from './utils'
-import db from './db'
 
 const sessionConfig = {
     genid: () => uuidv4(),
@@ -26,43 +25,6 @@ app.use(express.json())
 app.use(express.static(getPath('/public')))
 app.use(session(sessionConfig))
 
-// TODO delete this - for debug only
-app.get('/api/db', (req: express.Request, res: express.Response) => {
-    res.json(db)
-})
-
-app.get('/api/health', (req: express.Request, res: express.Response) => {
-    healthCheck()
-        .then((healthData) => res.json(healthData))
-        .catch(errorHandler(res))
-})
-
-app.get('/', (req: express.Request, res: express.Response) => {
-    siteData
-        .home()
-        .then((data) => res.render('home.pug', { data }))
-        .catch(errorHandler(res))
-})
-
-app.get('/login', (req: express.Request, res: express.Response) => {
-    siteData
-        .login()
-        .then((data) => res.render('login.pug', { admin: true, data }))
-        .catch(errorHandler(res))
-})
-
-// TODO find a good toast notification library to use on the frontend
-
-app.post('/login', (req: express.Request, res: express.Response) => {
-    const { email, plaintext } = req.body
-    validateLogin(email, plaintext)
-        .then((data) => {
-            req.session.user = data
-            res.sendStatus(200)
-        })
-        .catch(errorHandler(res))
-})
-
 const adminOnly = (
     req: express.Request,
     res: express.Response,
@@ -72,19 +34,51 @@ const adminOnly = (
     else res.redirect('/login')
 }
 
-app.post(
-    '/api/register',
-    adminOnly,
-    (req: express.Request, res: express.Response) => {
-        const { email, plaintext } = req.body
-        registerUser(email, plaintext)
-            .then((data) => res.json(data))
-            .catch(errorHandler(res))
-    },
-)
+// TODO find a good toast notification library to use on the frontend
 
-// secure endpoints with jwt
-// 404
+app.get(['/', '/home'], (req, res) => {
+    siteData
+        .home()
+        .then((data) => res.render('home.pug', { data }))
+        .catch(errorHandler(res))
+})
+
+app.get('/login', (req, res) => {
+    siteData
+        .login()
+        .then((data) => res.render('login.pug', { admin: true, data }))
+        .catch(errorHandler(res))
+})
+
+app.post('/api/login', (req, res) => {
+    const { email, plaintext } = req.body
+    validateLogin(email, plaintext)
+        .then((data) => {
+            req.session.user = data
+            res.json(data)
+        })
+        .catch(errorHandler(res))
+})
+
+app.delete('/api/logout', (req, res) => {
+    logOut(req)
+        .then(() => res.sendStatus(200))
+        .catch(errorHandler(res))
+})
+
+app.get('/admin/settings', adminOnly, (req, res) => {
+    const { user } = req.session
+    res.render('settings.pug', { user })
+})
+
+app.post('/api/register', adminOnly, (req, res) => {
+    const { email, plaintext } = req.body
+    registerUser(email, plaintext)
+        .then((data) => res.json(data))
+        .catch(errorHandler(res))
+})
+
+app.use('*', (req, res) => res.render('404.pug'))
 
 app.listen(HTTP_PORT, () => {
     console.log(`Server running on port ${HTTP_PORT}`)

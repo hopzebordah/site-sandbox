@@ -11,8 +11,8 @@ const component = () => {
     return {
         email: '',
         emailErr: defaultErrState,
-        password: '',
-        passwordErr: defaultErrState,
+        plaintext: '',
+        plaintextErr: defaultErrState,
         formLoading: false,
         updateEmail(e) {
             if (e.target.value) {
@@ -20,10 +20,10 @@ const component = () => {
                 this.email = e.target.value
             }
         },
-        updatePassword(e) {
+        updatePlaintext(e) {
             if (e.target.value) {
-                this.setPropertyValidity('password', true)
-                this.password = e.target.value
+                this.setPropertyValidity('plaintext', true)
+                this.plaintext = e.target.value
             }
         },
         setPropertyValidity(name, valid) {
@@ -47,8 +47,8 @@ const component = () => {
         },
         validateForm() {
             if (!this.email) this.setPropertyValidity('email', false)
-            if (!this.password) this.setPropertyValidity('password', false)
-            return this.email && this.password
+            if (!this.plaintext) this.setPropertyValidity('plaintext', false)
+            return this.email && this.plaintext
         },
         submit(e) {
             e.preventDefault()
@@ -58,13 +58,29 @@ const component = () => {
 
             this.formLoading = true
 
-            setTimeout(() => {
-                this.formLoading = false
-            }, 2000)
-
-            console.log(
-                `form submitted: email ${this.email} and password ${this.password}`,
-            )
+            fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: this.email,
+                    plaintext: this.plaintext,
+                }),
+            })
+                .then((response) => {
+                    return response.json()
+                })
+                .then((data) => {
+                    window.location.replace('/admin/settings')
+                })
+                .catch((err) => {
+                    // TODO pop error toast
+                    console.error(err)
+                })
+                .finally(() => {
+                    this.formLoading = false
+                })
         },
     }
 }

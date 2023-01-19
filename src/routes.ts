@@ -39,6 +39,17 @@ export const validateLogin = async (
     return { userId: user.id, email: user.email }
 }
 
+export const logOut = async (req: Express.Request) => {
+    if (req.session.user) {
+        await new Promise<void>((resolve, reject) => {
+            req.session.destroy((err) => {
+                if (err) reject(err)
+                else resolve()
+            })
+        })
+    }
+}
+
 export const registerUser = async (email?: string, plaintext?: string) => {
     if (!email || !plaintext) {
         throw new ClientError(
