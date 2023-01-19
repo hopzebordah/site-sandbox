@@ -1,0 +1,24 @@
+extends layout.pug 
+
+block body 
+    .admin-page.d-flex.flex-column.justify-content-start.align-items-center.mt-5
+
+        h5 Admin Login
+
+        form.admin-form.d-flex.flex-column.mt-3(id="login-form")
+
+            .mb-3 
+                label.form-label(for="email") Email address 
+                input.form-control(id="email" type="email" v-bind:value="email" @input="updateEmail" v-bind:class="emailErr.classes")
+                .invalid-feedback You must enter an email address
+
+            .mb-3 
+                label.form-label(for="password") Password 
+                input.form-control(id="password" type="password" v-bind:value="password" @input="updatePassword" v-bind:class="passwordErr.classes")
+                .invalid-feedback You must enter a password
+
+            button.btn.btn-primary(type="submit" @click="submit" v-bind:disabled="formLoading") 
+                .spinner-border.spinner-border-sm(v-if="formLoading")
+                span(v-else) Submit
+
+    script(type="module", src="js/views/login.js")

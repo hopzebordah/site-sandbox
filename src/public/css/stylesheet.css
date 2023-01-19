@@ -1,0 +1,12 @@
+.user-page {
+    background-color: #555;
+}
+
+.admin-page {
+    background-color: #eee;
+    height: 100vh;
+}
+
+.admin-form {
+    text-align: left;
+}
