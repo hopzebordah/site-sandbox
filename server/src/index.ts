@@ -36,6 +36,10 @@ const adminOnly = (
 
 // TODO find a good toast notification library to use on the frontend
 
+app.use('/apps/admin/*', (req, res) => {
+    res.redirect('/apps/admin')
+})
+
 app.get(['/', '/home'], (req, res) => {
     siteData
         .home()

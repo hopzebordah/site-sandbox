@@ -1,12 +1,20 @@
 {
-  "name": "myers-propane-site",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+    "name": "myers-propane-site",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "server:start:dev": "pnpm --filter ./server start:dev",
+        "admin-client:build:watch": "pnpm --filter ./admin-client build:watch",
+        "start:dev": "concurrently --kill-others \"pnpm server:start:dev\" \"pnpm admin-client:build:watch\""
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "concurrently": "^7.6.0",
+        "eslint": "^8.26.0",
+        "prettier": "^2.7.1"
+    }
 }
