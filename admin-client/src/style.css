@@ -1,0 +1,13 @@
+.admin-page {
+    background-color: #eee;
+    height: 100vh;
+    width: 100vw;
+}
+
+.admin-form {
+    text-align: left;
+    background-color: #ddd;
+    border-top: 3px solid #555;
+    border-radius: 5px;
+    padding: 1rem 5rem;
+}
