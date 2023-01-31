@@ -38,20 +38,6 @@ app.use('/apps/admin/*', (req, res) => {
     res.redirect('/apps/admin')
 })
 
-// TODO these are commented out because they will be replaced by the above link
-
-// app.get('/login', (req, res) => {
-//     siteData
-//         .login()
-//         .then((data) => res.render('login.pug', { admin: true, data }))
-//         .catch(errorHandler(res))
-// })
-
-// app.get('/admin/settings', adminOnly, (req, res) => {
-//     const { user } = req.session
-//     res.render('settings.pug', { user })
-// })
-
 app.get(['/', '/home'], (req, res) => {
     siteData
         .home()
@@ -60,13 +46,18 @@ app.get(['/', '/home'], (req, res) => {
 })
 
 app.post('/api/admin/login', (req, res) => {
-    const { email, plaintext } = req.body
-    validateLogin(email, plaintext)
+    const { email, password } = req.body
+    validateLogin(email, password)
         .then((data) => {
             req.session.user = data
             res.json(data)
         })
         .catch(errorHandler(res))
+})
+
+app.get('/api/admin/login/verify', (req, res) => {
+    if (req.session.user) res.sendStatus(200)
+    else res.sendStatus(401)
 })
 
 app.delete('/api/admin/logout', (req, res) => {
@@ -76,8 +67,8 @@ app.delete('/api/admin/logout', (req, res) => {
 })
 
 app.post('/api/admin/register', adminOnly, (req, res) => {
-    const { email, plaintext } = req.body
-    registerUser(email, plaintext)
+    const { email, password } = req.body
+    registerUser(email, password)
         .then((data) => res.json(data))
         .catch(errorHandler(res))
 })
