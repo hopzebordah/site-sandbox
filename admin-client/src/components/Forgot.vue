@@ -1,33 +1,22 @@
 <script setup lang="ts">
 import axios from 'axios'
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 import { FormErrorState, InputErrorState } from '../types'
-
-const router = useRouter()
 
 const formLoading = ref(false)
 
 const form = ref({
     email: '',
-    password: '',
 })
 
 const errState = ref<FormErrorState>({
     email: { error: false, classes: [] },
-    password: { error: false, classes: [] },
 })
 
 const updateEmail = (event: Event) => {
     const target = event.target as HTMLInputElement
     form.value.email = target.value
     setPropertyValidity('email', true)
-}
-
-const updatePassword = (event: Event) => {
-    const target = event.target as HTMLInputElement
-    form.value.password = target.value
-    setPropertyValidity('password', true)
 }
 
 const setPropertyValidity = (propertyName: string, valid: boolean) => {
@@ -45,8 +34,7 @@ const setPropertyValidity = (propertyName: string, valid: boolean) => {
 
 const validateForm = () => {
     if (!form.value.email) setPropertyValidity('email', false)
-    if (!form.value.password) setPropertyValidity('password', false)
-    return form.value.email && form.value.password
+    return !!form.value.email
 }
 
 const submit = (event: Event) => {
@@ -59,13 +47,12 @@ const submit = (event: Event) => {
 
     const data = {
         email: form.value.email,
-        password: form.value.password,
     }
 
-    axios({ method: 'POST', url: '/api/admin/login', data })
+    axios({ method: 'POST', url: '/api/admin/forgot', data })
         .then((response) => {
             console.log(response)
-            router.replace('/')
+            // TODO pop a toast here that says 'we will send a message to that email if an account exists'
         })
         .catch((err) => {
             console.error(err)
@@ -81,7 +68,7 @@ const submit = (event: Event) => {
         <div class="row">
             <div class="col-0 col-md-2 col-lg-3 col-xl-4" />
             <div class="col-12 col-md-8 col-lg-6 col-xl-4 admin-form">
-                <h3 class="text-center">Admin Login</h3>
+                <h3 class="text-center">Password Reset</h3>
                 <form class="d-flex flex-column mt-3">
                     <div class="mb-3">
                         <label class="form-label" for="email"
@@ -97,20 +84,6 @@ const submit = (event: Event) => {
                             You must enter a valid email address
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="password"
-                            >Password</label
-                        >
-                        <input
-                            class="form-control"
-                            :class="errState.password.classes"
-                            type="password"
-                            :value="form.password"
-                            @input="updatePassword" />
-                        <div class="invalid-feedback">
-                            You must enter a password
-                        </div>
-                    </div>
                     <button
                         class="btn btn-primary"
                         :disabled="formLoading"
@@ -121,9 +94,9 @@ const submit = (event: Event) => {
                         <span v-else>Submit</span>
                     </button>
                     <router-link
-                        to="/forgot"
+                        to="/login"
                         class="link-secondary text-center mt-3"
-                        >Forgot your password?</router-link
+                        >Back to login</router-link
                     >
                 </form>
             </div>
@@ -131,5 +104,3 @@ const submit = (event: Event) => {
         </div>
     </div>
 </template>
-
-<style scoped></style>

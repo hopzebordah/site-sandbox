@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-    <div class="container-fluid">
+    <div class="">
         <router-view></router-view>
     </div>
 </template>
