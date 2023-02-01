@@ -1,3 +1,34 @@
 .user-page {
     background-color: #555;
 }
+
+.flex-1 {
+    flex: 1;
+}
+
+.fs-7 {
+    font-size: 0.75rem;
+}
+
+.call-to-action {
+    background-color: #212529;
+    color: orange;
+    outline: 2px solid orange;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.page-section {
+    border-bottom: 1rem rgb(157, 178, 55) solid;
+}
+
+.your-caring-providers {
+    position: relative;
+}
+
+.your-caring-providers h2 {
+    position: absolute;
+    bottom: 40%;
+    left: 25%;
+    font-weight: 700;
+}

@@ -1,21 +1,22 @@
 nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
         .container-fluid
-            a.navbar-brand(href="#") Myers Propane Logo
+            a.navbar-brand(href="/")
+                img.ms-3(src="/assets/logo.png" height="50" width="120")
 
-            button.navbar-toggler(type="button", data-bs-toggle="collapse", data-bs-target="#navbarSupportedContent")
+            button.navbar-toggler(type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent")
                 span.navbar-toggler-icon
 
-            .collapse.navbar-collapse.d-flex.flex-row.justify-content-between(id="navbarSupportedContent")
+            .collapse.navbar-collapse(id="navbarSupportedContent")
+                .d-flex.flex-row.justify-content-between.align-items-center.w-100
+                    ul.navbar-nav.mr-auto.d-flex.flex-row.justify-content-end.flex-1
+                        li.nav-item.mx-2.fs-7
+                            a.nav-link(href="#") OUR STORY
 
-                ul.navbar-nav.mr-auto
-                    li.nav-item.active
-                        a.nav-link(href="#") Home 
+                        li.nav-item.mx-2.fs-7
+                            a.nav-link(href="#") SAFETY INFO
 
-                    li.nav-item
-                        a.nav-link(href="#") Contact
+                        li.nav-item.mx-2.me-3.fs-7
+                            a.nav-link(href="#") CONTACT
 
-                    li.nav-item
-                        a.nav-link.disabled(href="#") Sign Up Now
-
-                form.d-flex
-                    button.btn.btn-success(type="submit") Pay Your Bill
+                    form.me-3
+                        button.call-to-action(type="submit") PAY YOUR BILL
