@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt'
 import { v4 as uuidv4 } from 'uuid'
-import db from '../db'
-import { SALT_ROUNDS } from '../constants'
-import { ClientError, NotAuthorizedError } from '../errors'
-import { CookieData, HealthData } from '../types'
+import db from '../db.js'
+import { SALT_ROUNDS } from '../constants.js'
+import { ClientError, NotAuthorizedError } from '../errors.js'
+import { CookieData, HealthData } from '../types.js'
 
 // TODO write some rate limiting logic here to prevent people from brute forcing passwords
 export const validateLogin = async (

@@ -7,7 +7,10 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "server:start:dev": "pnpm --filter ./server start:dev",
         "admin-client:build:watch": "pnpm --filter ./admin-client build:watch",
-        "start:dev": "concurrently --kill-others \"pnpm server:start:dev\" \"pnpm admin-client:build:watch\""
+        "admin-client:build": "pnpm --filter ./admin-client build",
+        "server:build": "pnpm --filter ./server build",
+        "start:dev": "concurrently --kill-others \"pnpm server:start:dev\" \"pnpm admin-client:build:watch\"",
+        "start:prod": "pnpm --filter ./server start:prod"
     },
     "keywords": [],
     "author": "",

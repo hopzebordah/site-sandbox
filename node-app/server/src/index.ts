@@ -2,10 +2,10 @@ import express from 'express'
 import session from 'express-session'
 import cors from 'cors'
 import { v4 as uuidv4 } from 'uuid'
-import { HTTP_PORT, SESSION_SECRET } from './constants'
-import { getPath } from './utils'
-import adminController from './controllers/adminController'
-import dynamicPageRenderer from './controllers/dynamicPageRenderer'
+import { HTTP_PORT, SESSION_SECRET } from './constants.js'
+import { getPath } from './utils.js'
+import adminController from './controllers/adminController.js'
+import dynamicPageRenderer from './controllers/dynamicPageRenderer.js'
 
 const sessionConfig = {
     genid: () => uuidv4(),

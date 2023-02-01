@@ -1,5 +1,5 @@
 import express from 'express'
-import { ClientError, GenericError } from './errors'
+import { ClientError, GenericError } from './errors.js'
 import { ValidationError } from 'suretype'
 import path from 'path'
 import { fileURLToPath } from 'url'

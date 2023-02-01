@@ -3,8 +3,8 @@ import {
     destroySession,
     registerUser,
     validateLogin,
-} from '../services/adminService'
-import { errorHandler } from '../utils'
+} from '../services/adminService.js'
+import { errorHandler } from '../utils.js'
 
 const router = express.Router()
 

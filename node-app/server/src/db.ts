@@ -1,5 +1,5 @@
-import { DEFAULT_USER_RECORD } from './constants'
-import { DatabaseStructure } from './types'
+import { DEFAULT_USER_RECORD } from './constants.js'
+import { DatabaseStructure } from './types.js'
 
 export default {
     users: [DEFAULT_USER_RECORD],
