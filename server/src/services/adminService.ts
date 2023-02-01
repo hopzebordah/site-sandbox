@@ -1,22 +1,9 @@
 import bcrypt from 'bcrypt'
 import { v4 as uuidv4 } from 'uuid'
-import db from './db'
-import { SALT_ROUNDS } from './constants'
-import { ClientError, NotAuthorizedError } from './errors'
-import { CookieData, HealthData } from './types'
-
-export const healthCheck = async (): Promise<HealthData> => {
-    return { http: 'UP' }
-}
-
-export const siteData = {
-    async home() {
-        return db.config
-    },
-    async login() {
-        return {}
-    },
-}
+import db from '../db'
+import { SALT_ROUNDS } from '../constants'
+import { ClientError, NotAuthorizedError } from '../errors'
+import { CookieData, HealthData } from '../types'
 
 // TODO write some rate limiting logic here to prevent people from brute forcing passwords
 export const validateLogin = async (
@@ -39,7 +26,7 @@ export const validateLogin = async (
     return { userId: user.id, email: user.email }
 }
 
-export const logOut = async (req: Express.Request) => {
+export const destroySession = async (req: Express.Request) => {
     if (req.session.user) {
         await new Promise<void>((resolve, reject) => {
             req.session.destroy((err) => {

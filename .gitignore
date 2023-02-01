@@ -77,4 +77,4 @@ dist-ssr
 *.sw?
 
 # Custom entries for built code etc
-server/src/public/apps/admin/*
+server/src/public/admin/*
